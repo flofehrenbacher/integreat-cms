@@ -2914,7 +2914,8 @@ msgstr "Kontakte"
 #: cms/models/contact/contact.py
 msgid "Only one contact per location can have an empty area of responsibility."
 msgstr ""
-"Pro Ort darf es nur einen Kontakt ohne Angabe des Zuständigkeitsbereichs geben."
+"Pro Ort darf es nur einen Kontakt ohne Angabe des Zuständigkeitsbereichs "
+"geben."
 
 #: cms/models/contact/contact.py
 msgid ""
@@ -3170,6 +3171,7 @@ msgid "feedback"
 msgstr "Feedback"
 
 #: cms/models/feedback/imprint_page_feedback.py cms/templates/_base.html
+#: cms/templates/authentication/_base.html
 msgid "Imprint"
 msgstr "Impressum"
 
@@ -5305,6 +5307,10 @@ msgstr "Noch keine Sprachen vorhanden."
 #: cms/templates/analytics/translation_coverage.html
 msgid "Total"
 msgstr "Summe"
+
+#: cms/templates/authentication/_base.html
+msgid "Privacy policy"
+msgstr "Datenschutzerklärung"
 
 #: cms/templates/authentication/account_activation_form.html
 #: cms/utils/welcome_mail_utils.py
@@ -11851,7 +11857,6 @@ msgstr ""
 "Diese Seite konnte nicht importiert werden, da sie zu einer anderen Region "
 "gehört ({})."
 
-#, python-brace-format
 #~ msgid "{model_name} {object_names} was successfully deactivated."
 #~ msgid_plural ""
 #~ "The following {model_name} were successfully deactivated: {object_names}"
@@ -12197,15 +12202,15 @@ msgstr ""
 #~ "Übersetzungen. Bitte haben Sie noch ein wenig Geduld."
 
 #~ msgid ""
-#~ "Your pages currently have "
-#~ "<b>%(number_of_missing_or_outdated_translations)s pages </b>that have an "
+#~ "Your pages currently have <b>"
+#~ "%(number_of_missing_or_outdated_translations)s pages </b>that have an "
 #~ "outdated or no translation. In order for the users to benefit from your "
 #~ "content you should translate them or have them translated."
 #~ msgstr ""
-#~ "Ihre Inhalten haben aktuell "
-#~ "<b>%(number_of_missing_or_outdated_translations)s Seiten </b> mit "
-#~ "fehlender oder veralteter Übersetzung. Damit die Nutzer:innen von Ihren "
-#~ "Inhalten profitieren können, sollten Sie diese übersetzen (lassen)."
+#~ "Ihre Inhalten haben aktuell <b>"
+#~ "%(number_of_missing_or_outdated_translations)s Seiten </b> mit fehlender "
+#~ "oder veralteter Übersetzung. Damit die Nutzer:innen von Ihren Inhalten "
+#~ "profitieren können, sollten Sie diese übersetzen (lassen)."
 
 #~ msgid "View location"
 #~ msgstr "Ort ansehen"
