@@ -4633,6 +4633,10 @@ msgstr "Netzwerkverwaltung"
 msgid "Account Settings"
 msgstr "Konto-Einstellungen"
 
+#: cms/templates/_base.html cms/templates/authentication/_base.html
+msgid "Privacy policy"
+msgstr "Datenschutzerklärung"
+
 #: cms/templates/_base.html
 msgid "Log out"
 msgstr "Abmelden"
@@ -5307,10 +5311,6 @@ msgstr "Noch keine Sprachen vorhanden."
 #: cms/templates/analytics/translation_coverage.html
 msgid "Total"
 msgstr "Summe"
-
-#: cms/templates/authentication/_base.html
-msgid "Privacy policy"
-msgstr "Datenschutzerklärung"
 
 #: cms/templates/authentication/account_activation_form.html
 #: cms/utils/welcome_mail_utils.py
