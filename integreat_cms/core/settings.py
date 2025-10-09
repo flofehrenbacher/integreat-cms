@@ -152,7 +152,7 @@ COMPANY_URL: Final[str] = os.environ.get(
 #: The URL to the privacy policy
 PRIVACY_POLICY_URL: Final[str] = os.environ.get(
     "INTEGREAT_CMS_PRIVACY_POLICY_URL",
-    "https://example.com/",
+    "https://www.integreat-app.de",
 )
 
 #: The URL to the imprint
