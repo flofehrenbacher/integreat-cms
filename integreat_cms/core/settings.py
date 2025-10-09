@@ -158,7 +158,7 @@ PRIVACY_POLICY_URL: Final[str] = os.environ.get(
 #: The URL to the imprint
 IMPRINT_URL: Final[str] = os.environ.get(
     "INTEGREAT_CMS_IMPRINT_URL",
-    "https://example.com/",
+    "https://www.integreat-app.de",
 )
 
 #: The available inbuilt brandings of the CMS
