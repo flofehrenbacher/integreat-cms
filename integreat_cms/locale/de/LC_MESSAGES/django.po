@@ -4633,10 +4633,6 @@ msgstr "Netzwerkverwaltung"
 msgid "Account Settings"
 msgstr "Konto-Einstellungen"
 
-#: cms/templates/_base.html cms/templates/authentication/_base.html
-msgid "Privacy policy"
-msgstr "Datenschutzerklärung"
-
 #: cms/templates/_base.html
 msgid "Log out"
 msgstr "Abmelden"
@@ -4750,6 +4746,10 @@ msgstr "Ortskategorien"
 #: cms/templates/pages/page_sbs.html cms/templates/pois/poi_form.html
 msgid "Version"
 msgstr "Version"
+
+#: cms/templates/_base.html cms/templates/authentication/_base.html
+msgid "Privacy policy"
+msgstr "Datenschutzerklärung"
 
 #: cms/templates/_content_edit_lock.html
 msgid "{} is already editing this content"
