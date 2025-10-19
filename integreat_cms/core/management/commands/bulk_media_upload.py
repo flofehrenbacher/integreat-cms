@@ -43,7 +43,7 @@ class Command(LogCommand):
         group_input.add_argument(
             "--dir",
             "--directory",
-            help="The path to the directory file to upload media from",
+            help="The path to the directory to upload media from",
         )
         group_input.add_argument(
             "-r",
@@ -79,7 +79,7 @@ class Command(LogCommand):
         if not (options["zip"] or options["dir"]):
             # We need at least one of the options, else we cannot do anything
             raise CommandError("Specify --zip or --directory")
-        if options["region"]:
+        if options["region"] is not None:
             # Find the region belonging to the slug
             # This simultaneously validates the slug, since this will throw an exception if no matching region is found
             options["region"] = Region.objects.get(slug=options["region"])
@@ -120,7 +120,7 @@ class Command(LogCommand):
         # DO THE UPLOADING
         with open(
             options["csv"], "w"
-        ) as out:  # TODO: Fail if file exists (add --force option?)
+        ) as out:  # TODO: Fail if file exists (and add --force option?)
             # Write out the CSV header
             out.write("name,upload_path\n")
             if options["zip"]:
@@ -192,7 +192,7 @@ class Command(LogCommand):
                     else file_path.relative_to(root)
                 )
                 with file_path.open() as data:
-                    # Find out the uncompressed size
+                    # Find out the uncompressed size by moving to the end of the data stream
                     data.seek(0, 2)
                     uncompressed_size = data.tell()
                     # Seek back to the start, so when the form is submitted it doesn't complain that it is invalid
@@ -245,14 +245,14 @@ class Command(LogCommand):
                         logger.error("Upload failed: %s", relative_path)
 
         if dirs:
-            # Make one single query now instead of one for each individual subdir or file
-            child_dirs = {
+            # Make one or two single queries now instead of one for each individual subdir or file
+            library_dirs = {
                 directory.name: directory
                 for directory in Directory.objects.filter(
                     parent=destination, region=region
                 )
             }
-            child_files = MediaFile.objects.filter(
+            library_files = MediaFile.objects.filter(
                 parent_directory=destination, region=region
             ).values_list("name")
 
@@ -262,10 +262,11 @@ class Command(LogCommand):
                     if isinstance(item, ZipPath)
                     else item.relative_to(root)
                 )
-                if item.name not in child_dirs:
+                if item.name not in library_dirs:
                     # Build the string to report which library it is
                     realm = f"region {region.slug}" if region else "global"
-                    if item.name in child_files:
+                    # If we never encounter a directory that does not already exist in the library, django doesn't even send the query for library_files to the database! :tada:
+                    if item.name in library_files:
                         logger.error(
                             "Not a directory (%s): %s",
                             realm,
@@ -273,7 +274,7 @@ class Command(LogCommand):
                         )
                         continue
                     if "parents" in options:
-                        child_dir = Directory.objects.create(
+                        library_dir = Directory.objects.create(
                             name=item.name,
                             region=region,
                             parent=destination,
@@ -286,10 +287,10 @@ class Command(LogCommand):
                         )
                         continue
                 else:
-                    child_dir = child_dirs[item.name]
+                    library_dir = library_dirs[item.name]
                 self.upload_directory(
                     item,
-                    destination=child_dir,
+                    destination=library_dir,
                     root=root,
                     created=created,
                     stats=stats,

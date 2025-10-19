@@ -288,7 +288,7 @@ Source path                                                                     
 **Input options:**
 
 * ``--zip ZIP``: The path to the zip archive to upload media from
-* ``--dir DIR``, ``--directory DIR``: The path to the directory file to upload media from
+* ``--dir DIR``, ``--directory DIR``: The path to the directory to upload media from
 * ``-r`` or ``--recursive``: Recursively descend into sub directories and upload their contents as well
 
 **Output options:**
