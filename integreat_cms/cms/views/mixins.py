@@ -6,7 +6,9 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+from django.conf import settings
 from django.contrib.auth.mixins import UserPassesTestMixin
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.views.generic.base import ContextMixin, TemplateResponseMixin
@@ -15,6 +17,9 @@ from ...core.utils.machine_translation_provider import MachineTranslationProvide
 
 if TYPE_CHECKING:
     from typing import Any
+
+    from django.core.paginator import Page
+    from django.db.models.query import QuerySet
 
 
 class RegionPermissionRequiredMixing(UserPassesTestMixin):
@@ -140,3 +145,45 @@ class MachineTranslationContextMixin(ContextMixin):
             )
         )
         return context
+
+
+class PaginationMixin:
+    default_page_size: int = settings.PER_PAGE or 10
+    max_page_size: int = 100
+
+    def paginate_queryset(self, queryset: QuerySet) -> Page:
+        page = self.request.GET.get("page", 1)
+        size = self.request.GET.get("size", self.default_page_size)
+
+        try:
+            size = min(int(size), self.max_page_size)
+        except (TypeError, ValueError):
+            size = self.default_page_size
+
+        paginator = Paginator(queryset, size)
+        try:
+            page_obj = paginator.page(page)
+        except PageNotAnInteger:
+            page_obj = paginator.page(1)
+        except EmptyPage:
+            page_obj = paginator.page(paginator.num_pages)
+
+        return page_obj
+
+
+class FilterSortMixin:
+    filter_form_class = None
+    sort_fields = []
+
+    def get_filter_form(self):
+        return self.filter_form_class(self.request.POST or None)
+
+    def get_filtered_sorted_queryset(self, queryset):
+        form = self.get_filter_form()
+        if form.is_valid():
+            queryset = form.apply_filters(queryset)
+
+        order_by = self.request.POST.get("sort")
+        if order_by and order_by.lstrip("-") in self.sort_fields:
+            queryset = queryset.order_by(order_by)
+        return queryset
