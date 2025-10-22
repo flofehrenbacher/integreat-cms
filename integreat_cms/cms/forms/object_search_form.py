@@ -10,9 +10,9 @@ class ObjectSearchForm(forms.Form):
 
     query = forms.CharField(min_length=1, required=False)
 
-    search_fields = []  # override in child class
+    search_fields: list[str] = []  # override in child class
 
-    def apply_filters(self, queryset: QuerySet):
+    def apply_filters(self, queryset: QuerySet) -> QuerySet:
         search_query = self.cleaned_data.get("query")
         if search_query and self.search_fields:
             q = Q()

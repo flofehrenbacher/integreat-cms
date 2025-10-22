@@ -21,6 +21,8 @@ if TYPE_CHECKING:
     from django.core.paginator import Page
     from django.db.models.query import QuerySet
 
+    from ..forms import ObjectSearchForm
+
 
 class RegionPermissionRequiredMixing(UserPassesTestMixin):
     """
@@ -148,6 +150,7 @@ class MachineTranslationContextMixin(ContextMixin):
 
 
 class PaginationMixin:
+    request: Any
     default_page_size: int = settings.PER_PAGE or 10
     max_page_size: int = 100
 
@@ -172,15 +175,18 @@ class PaginationMixin:
 
 
 class FilterSortMixin:
-    filter_form_class = None
-    sort_fields = []
+    request: Any
+    filter_form_class: type[ObjectSearchForm] | None = None
+    sort_fields: list[str] = []
 
-    def get_filter_form(self):
+    def get_filter_form(self) -> ObjectSearchForm | None:
+        if self.filter_form_class is None:
+            return None
         return self.filter_form_class(self.request.POST or None)
 
-    def get_filtered_sorted_queryset(self, queryset):
+    def get_filtered_sorted_queryset(self, queryset: QuerySet) -> QuerySet:
         form = self.get_filter_form()
-        if form.is_valid():
+        if form and form.is_valid():
             queryset = form.apply_filters(queryset)
 
         order_by = self.request.POST.get("sort")
