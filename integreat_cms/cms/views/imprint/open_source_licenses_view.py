@@ -38,12 +38,12 @@ class OpenSourceLicensesView(TemplateView):
         with open(SBOM_FILE_PATH, encoding="utf-8") as file:
             data = json.load(file)
 
-        licenses = data["packages"]
+        packages = data["packages"]
 
-        for license in licenses:
-            license["versionInfo"] = license["versionInfo"] if license["versionInfo"] else "N/A"
-            license["url"] = self.create_url_from_reference_locator(license["externalRefs"][0]["referenceLocator"])
+        for package in packages:
+            package["versionInfo"] = package["versionInfo"] if package["versionInfo"] else "N/A"
+            package["url"] = self.create_url_from_reference_locator(package["externalRefs"][0]["referenceLocator"])
 
         return {
-            "licenses": licenses,
+            "packages": packages,
         }
