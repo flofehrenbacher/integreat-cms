@@ -150,6 +150,15 @@ class MachineTranslationContextMixin(ContextMixin):
 
 
 class PaginationMixin:
+    """
+    Mixin to add pagination to a view.
+    The page size can be defined by a "size" parameter in the request.
+    If no size is set explicitly, the page size is given by the PER_PAGE setting,
+    and the fallback page size value is 10.
+    Note that this mixin is intended for extending Django's View class (or child classes),
+    and expects a self.request attribute. Django's generic View defines the request attribute
+    in the dispatch phase.
+    """
     request: Any
     default_page_size: int = settings.PER_PAGE or 10
     max_page_size: int = 100
@@ -175,6 +184,15 @@ class PaginationMixin:
 
 
 class FilterSortMixin:
+    """
+    Mixin to add filtering and sorting to a view.
+    Filtering logic is handled by the SearchForm. To add filtering to a view,
+    set a filter_form_class attribute (the filter_form_class should be a child of ObjectSearchForm).
+    To allow sorting, add a sort_fields list attribute to your view.
+    Note that this mixin is intended for extending Django's View class (or child classes),
+    and expects a self.request attribute. Django's generic View defines the request attribute
+    in the dispatch phase.
+    """
     request: Any
     filter_form_class: type[ObjectSearchForm] | None = None
     sort_fields: list[str] = []
