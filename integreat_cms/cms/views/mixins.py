@@ -187,10 +187,11 @@ class FilterSortMixin:
     """
     Mixin to add filtering and sorting to a view.
     Filtering logic is handled by the SearchForm. To add filtering to a view,
-    set a filter_form_class attribute (the filter_form_class should be a child of ObjectSearchForm).
-    To allow sorting, add a sort_fields list attribute to your view.
+    set a ``filter_form_class` attribute (the ``filter_form_class`` should be a child of
+    :class:`~integreat_cms.cms.forms.object_search_form.ObjectSearchForm`).
+    To allow sorting, add a ``sort_fields`` list attribute to your view.
     Note that this mixin is intended for extending Django's View class (or child classes),
-    and expects a self.request attribute. Django's generic View defines the request attribute
+    and expects a ``self.request`` attribute. Django's generic View defines the request attribute
     in the dispatch phase.
     """
     request: Any
