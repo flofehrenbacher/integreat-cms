@@ -152,11 +152,12 @@ class MachineTranslationContextMixin(ContextMixin):
 class PaginationMixin:
     """
     Mixin to add pagination to a view.
-    The page size can be defined by a "size" parameter in the request.
-    If no size is set explicitly, the page size is given by the PER_PAGE setting,
+    The number of the page to view can be given by the ``page`` parameter in the request.
+    The page size can be defined by a ``size`` parameter in the request.
+    If no size is set explicitly, the page size is given by the ``PER_PAGE` setting,
     and the fallback page size value is 10.
     Note that this mixin is intended for extending Django's View class (or child classes),
-    and expects a self.request attribute. Django's generic View defines the request attribute
+    and expects a ``self.request`` attribute. Django's generic View defines the request attribute
     in the dispatch phase.
     """
     request: Any
