@@ -160,6 +160,7 @@ class PaginationMixin:
     and expects a ``self.request`` attribute. Django's generic View defines the request attribute
     in the dispatch phase.
     """
+
     request: Any
     default_page_size: int = settings.PER_PAGE or 10
     max_page_size: int = 100
@@ -195,6 +196,7 @@ class FilterSortMixin:
     and expects a ``self.request`` attribute. Django's generic View defines the request attribute
     in the dispatch phase.
     """
+
     request: Any
     filter_form_class: type[ObjectSearchForm] | None = None
     sort_fields: list[str] = []
@@ -209,7 +211,9 @@ class FilterSortMixin:
         if form and form.is_valid():
             queryset = form.apply_filters(queryset)
 
-        order_by = self.request.POST.get("sort")
-        if order_by and order_by.lstrip("-") in self.sort_fields:
-            queryset = queryset.order_by(order_by)
-        return queryset
+        order_by = [
+            f
+            for f in self.request.POST.get("sort", "").split(",")
+            if f.lstrip("-") in self.sort_fields
+        ]
+        return queryset.order_by(*order_by)
